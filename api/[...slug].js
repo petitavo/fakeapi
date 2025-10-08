@@ -3,19 +3,26 @@ import path from "path";
 
 export default async function handler(req, res) {
     try {
+        // Leer base de datos
         const filePath = path.join(process.cwd(), "db.json");
         const raw = await fs.readFile(filePath, "utf8");
         const db = JSON.parse(raw);
 
-        // Extraer correctamente el path después de /api/
-        const slug = req.query.slug || [];
+        // Extraer segmentos de la ruta correctamente (para Vercel)
+        const slug = Array.isArray(req.query.slug)
+            ? req.query.slug
+            : req.query.slug
+                ? [req.query.slug]
+                : [];
+
         const [collection, id] = slug;
 
+        // Si no hay colección, devuelve todo el JSON
         if (!collection) {
-            // Si no hay colección (solo /api), devuelve todo el db.json
             return res.status(200).json(db);
         }
 
+        // Verificar si la colección existe
         if (!db[collection]) {
             return res.status(404).json({
                 error: "Colección no encontrada",
@@ -23,12 +30,12 @@ export default async function handler(req, res) {
             });
         }
 
+        // Si solo se pide la colección (ej: /api/users)
         if (!id) {
-            // Si solo piden /api/users -> devuelve toda la colección
             return res.status(200).json(db[collection]);
         }
 
-        // Si piden /api/users/1 -> devuelve el elemento con ese ID
+        // Si se pide un ID específico (ej: /api/users/1)
         const item = db[collection].find((obj) => String(obj.id) === String(id));
 
         if (!item) {
@@ -37,7 +44,7 @@ export default async function handler(req, res) {
 
         return res.status(200).json(item);
     } catch (error) {
-        console.error("Error:", error);
+        console.error("Error en handler:", error);
         return res.status(500).json({ error: "Error interno del servidor" });
     }
 }
