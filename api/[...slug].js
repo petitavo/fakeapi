@@ -4,25 +4,26 @@ import path from "path";
 export default async function handler(req, res) {
     try {
         const filePath = path.join(process.cwd(), "db.json");
+        console.log("Ruta del JSON:", filePath);
+
         const raw = await fs.readFile(filePath, "utf8");
         const db = JSON.parse(raw);
 
-        // Obtener la ruta después de /api/
-        const urlParts = req.url.split("/api/")[1]?.split("/") || [];
+        const urlParts = req.url.split("/api/")[1]?.split("/").filter(Boolean) || [];
+        console.log("Ruta solicitada:", urlParts);
 
-        // Ejemplo:
-        // /api/batches → ["batches"]
-        // /api/batches/1 → ["batches", "1"]
-        // /api → []
-
-        if (urlParts.length === 0 || urlParts[0] === "") {
+        if (urlParts.length === 0) {
             return res.status(200).json(db);
         }
 
         const [collection, id] = urlParts;
+        console.log("Colección pedida:", collection);
 
         if (!db[collection]) {
-            return res.status(404).json({ error: "Colección no encontrada" });
+            return res.status(404).json({
+                error: "Colección no encontrada",
+                disponibles: Object.keys(db), // 👈 muestra qué claves tiene el JSON realmente
+            });
         }
 
         if (!id) {
