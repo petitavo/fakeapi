@@ -57,6 +57,30 @@
       "password": "productor123",
       "requestedRole": "Producer",
       "id": "1"
+    },
+    {
+      "firstName": "Luis",
+      "lastName": "García",
+      "email": "luis@admin.com",
+      "companyName": "Finca Los Andes",
+      "taxId": "FND12345",
+      "companyOption": "join",
+      "password": "pass123",
+      "phoneNumber": "987654321",
+      "requestedRole": "Supervisor",
+      "id": "2"
+    },
+    {
+      "firstName": "Ana",
+      "lastName": "Diaz",
+      "email": "ana@admin.com",
+      "companyName": "Finca Los Andes",
+      "taxId": "FND12345",
+      "companyOption": "join",
+      "password": "pass456",
+      "phoneNumber": "999888777",
+      "requestedRole": "Worker",
+      "id": "3"
     }
   ],
   "qrcode": [],
@@ -75,12 +99,12 @@
     {
       "id": 2,
       "lotId": "101",
-      "userId": "1",
+      "userId": "3",
       "stepType": "Fertilización",
       "stepDate": "2025-10-15",
       "stepTime": "14:30",
       "location": "Los Andes",
-      "observations": "Fertilización orgánica.",
+      "observations": "Fertilización orgánica aplicada por Ana.",
       "hash": ""
     },
     {
@@ -91,18 +115,18 @@
       "stepDate": "2025-10-20",
       "stepTime": "08:00",
       "location": "Hassland",
-      "observations": "Riego por goteo.",
+      "observations": "Riego por goteo bajo control del productor.",
       "hash": ""
     },
     {
       "id": 4,
       "lotId": "109",
-      "userId": "1",
+      "userId": "2",
       "stepType": "Inspección",
       "stepDate": "2025-10-30",
       "stepTime": "14:45",
       "location": "Chacra Huari",
-      "observations": "Inspección general.",
+      "observations": "Inspección del supervisor Luis García.",
       "hash": ""
     },
     {
@@ -113,7 +137,7 @@
       "stepDate": "2025-10-30",
       "stepTime": "13:30",
       "location": "Granos del Sur",
-      "observations": "Control de malezas.",
+      "observations": "Control de malezas en campo de avena.",
       "hash": ""
     }
   ]
